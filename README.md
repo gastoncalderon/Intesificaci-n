@@ -3,7 +3,7 @@
 App web para que los alumnos practiquen en sus casas. No necesita instalar nada ni registrarse, y no guarda datos personales (solo las estrellas de cada nivel, en el propio navegador).
 
 ## Secciones
-1. **Ritmos con palitos**: se escucha un ritmo de percusión seca y se arma con palitos (1 = negra, 2 = corcheas, 4 = semicorcheas; vacío = silencio). 8 rectángulos en 2 compases. 5 niveles de 5 ejercicios.
+1. **Ritmo con partitura analógica**: se escucha un ritmo de percusión seca y se arma con palitos (1 = negra, 2 = corcheas, 4 = semicorcheas; vacío = silencio). 8 rectángulos en 2 compases. 5 niveles de 5 ejercicios.
 2. **Ritmos con figuras**: lo mismo, pero con figuras sobre un pentagrama de una línea (negra, corcheas, semicorcheas, silencio).
 3. **Cualidades del sonido**: se comparan dos audios y se clasifican por timbre, duración, intensidad y altura.
 
@@ -18,6 +18,7 @@ La percusión de las secciones 1 y 2 se genera en el navegador: **no hace falta 
 | `js/rhythm/figuras.js` | Dibujos de palitos y figuras |
 | `js/rhythm/entrenador.js` | Pantalla y funcionamiento de las secciones 1 y 2 |
 | `js/core/audio.js` | Sonidos |
+| `assets/audio/rim.wav` | **Sonido de rim para los ritmos (opcional: si no está, se usa uno sintetizado)** |
 | `js/core/arrastrar.js` | Arrastrar y soltar (mouse y táctil) |
 | `js/qualities/cualidades.js` | Sección 3 |
 | `data/cualidades-config.js` | **Acá se cargan tus audios de la Sección 3** |

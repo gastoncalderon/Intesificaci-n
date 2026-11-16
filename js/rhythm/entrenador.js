@@ -1,7 +1,7 @@
 // Entrenador de ritmos: lo usan la Sección 1 (palitos) y la Sección 2 (figuras).
 (function(){const M=window.Musica=window.Musica||{};M.secciones=M.secciones||{};
 M.crearEntrenador=function(raiz,cfg){
- let niv=null,ej=0,pts=0,meta=[],resp=[],ver=[],intentos=0,hecho=false,sel=null,msg='',lento=false,pulso=true;
+ let niv=null,ej=0,pts=0,meta=[],resp=[],ver=[],intentos=0,hecho=false,sel=null,msg='',lento=false;
  const prog=M.leer(cfg.clave),NOM=cfg.nombres;
  const estrellas=n=>'★'.repeat(n)+'☆'.repeat(M.EJ-n);
  const msg2=t=>{const m=raiz.querySelector('#msg');if(m)m.textContent=t;};
@@ -17,7 +17,6 @@ M.crearEntrenador=function(raiz,cfg){
   raiz.innerHTML=`<h2>${cfg.titulo}</h2>
   <p class="prog">Nivel ${niv.n}: ${niv.titulo} · Ejercicio ${ej+1} de ${M.EJ} · Aciertos a la primera: ${pts}</p>
   <div class="barra"><button class="btn grande" data-acc="oir">▶ Escuchar el ritmo</button>
-   <label><input type="checkbox" data-opt="pulso" ${pulso?'checked':''}> Pulso de fondo</label>
    <label><input type="checkbox" data-opt="lento" ${lento?'checked':''}> Más lento</label></div>
   <div class="tablero ${cfg.clase}">${[0,1].map(c=>`<div class="compas">${[0,1,2,3].map(k=>celda(c*4+k)).join('')}</div>`).join('')}</div>
   <div class="paleta">${pal.map(t=>`<button class="ficha${sel===t?' sel':''}" data-arr data-tipo="${t}">${cfg.fig.ficha(t)}<span>${NOM[t]}</span></button>`).join('')}</div>
@@ -34,7 +33,7 @@ M.crearEntrenador=function(raiz,cfg){
  function nuevo(){meta=M.generar(niv);resp=Array(8).fill(null);ver=[];intentos=0;hecho=false;
   msg='Escuchá el ritmo y completá los 8 rectángulos.';tablero();}
  function colocar(i,t){if(hecho)return;resp[i]=(t==='silencio'&&cfg.vacioEsSilencio)?null:t;ver=[];msg='';tablero();}
- function oir(){M.audio.tocarRitmo(meta,{bpm:niv.bpm*(lento?.7:1),pulso,
+ function oir(){M.audio.tocarRitmo(meta,{bpm:niv.bpm*(lento?.7:1),
   alBeat:i=>{if(i<0)msg2('Preparate… '+(i+5));else{msg2('Escuchá…');marcar(i);}},
   alFin:()=>{marcar(-1);msg2(msg);}});}
  function comprobar(){ver=M.comparar(meta,resp,cfg.vacioEsSilencio);intentos++;
@@ -57,7 +56,7 @@ M.crearEntrenador=function(raiz,cfg){
   const a=e.target.closest('[data-acc]');if(a)return accion(a.dataset.acc);
   const c=e.target.closest('[data-celda]');
   if(c&&!e.target.closest('[data-arr]')&&sel&&niv&&!hecho)colocar(+c.dataset.celda,sel);};
- raiz.onchange=e=>{if(e.target.dataset.opt==='pulso')pulso=e.target.checked;if(e.target.dataset.opt==='lento')lento=e.target.checked;};
+ raiz.onchange=e=>{if(e.target.dataset.opt==='lento')lento=e.target.checked;};
  const quitar=M.arrastrar(raiz,{
   alSoltar:(t,c,o)=>{if(hecho||!niv)return;
    if(o.dataset.desde!==undefined)resp[+o.dataset.desde]=null;
@@ -70,7 +69,7 @@ M.crearEntrenador=function(raiz,cfg){
 };
 
 const conf={
- ritmos:{clave:'ritmos',titulo:'Sección 1 · Ritmos con palitos',clase:'',vacioEsSilencio:true,fig:M.figuras.analogica,
+ ritmos:{clave:'ritmos',titulo:'Sección 1 · Ritmo con partitura analógica',clase:'',vacioEsSilencio:true,fig:M.figuras.analogica,
   paleta:['negra','corcheas','semicorcheas','silencio'],
   nombres:{negra:'Negra · 1 palito',corcheas:'Corcheas · 2 palitos',semicorcheas:'Semicorcheas · 4 palitos',silencio:'Silencio · vacío'},
   consigna:'Escuchá el ritmo de percusión. Cada rectángulo es un pulso (una negra). Arrastrá los palitos al rectángulo que corresponda: 1 palito = negra, 2 = corcheas, 4 = semicorcheas. Si en ese pulso no suena nada, dejá el rectángulo vacío (silencio). También podés tocar una ficha y después tocar el rectángulo.'},

@@ -1,6 +1,6 @@
 // Navegación entre secciones (por la dirección #/ritmos, #/pentagrama, #/cualidades).
 (function(){const M=window.Musica;
-const SEC=[['ritmos','1 · Ritmos con palitos','Escuchá un ritmo y armalo con palitos.'],
+const SEC=[['ritmos','1 · Ritmo con partitura analógica','Escuchá un ritmo y armalo con palitos.'],
  ['pentagrama','2 · Ritmos con figuras','Escuchá un ritmo y escribilo con figuras musicales.'],
  ['cualidades','3 · Cualidades del sonido','Compará dos sonidos: timbre, duración, intensidad y altura.']];
 const app=document.getElementById('app'),nav=document.getElementById('nav');
