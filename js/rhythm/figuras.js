@@ -10,13 +10,18 @@ const NOTA={
  corcheas:cab(30)+cab(70)+pal(30,26)+pal(70,26)+viga(30,70,26),
  semicorcheas:[14,38,62,86].map(x=>cab(x)+pal(x,26)).join('')+viga(14,86,26)+viga(14,86,35),
  silencio:'<path d="M44 42 L57 57 L45 71 L57 86 C48 85 43 91 47 98" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>'};
-const LINEA='<line x1="0" x2="100" y1="70" y2="70" stroke="currentColor" stroke-width="2"/>';
+// Comienzo de la partitura: clave de percusión (dos barras gruesas) y compás 4/4. La línea del pentagrama se dibuja con CSS.
+const INICIO='<div class="inicio"><svg class="fig-svg" viewBox="0 0 170 110" aria-hidden="true">'+
+ '<rect x="16" y="56" width="8" height="28"/><rect x="32" y="56" width="8" height="28"/>'+
+ '<text x="98" y="67" font-size="44" font-weight="bold" font-family="Georgia,\'Times New Roman\',serif" text-anchor="middle">4</text>'+
+ '<text x="98" y="103" font-size="44" font-weight="bold" font-family="Georgia,\'Times New Roman\',serif" text-anchor="middle">4</text></svg></div>';
 M.figuras={
  // celda: lo que se ve dentro del rectángulo; ficha: lo que se ve en la paleta
  analogica:{
   celda:t=>t&&M.NOTAS[t]?svg(palitos(M.NOTAS[t])):'',
   ficha:t=>t==='silencio'?svg('<rect x="22" y="40" width="56" height="26" rx="6" fill="none" stroke="currentColor" stroke-width="4" stroke-dasharray="8 6"/>'):svg(palitos(M.NOTAS[t]))},
  pentagrama:{
-  celda:t=>svg(LINEA+(t?NOTA[t]:'')),
+  inicio:INICIO,
+  celda:t=>t?svg(NOTA[t]):'',
   ficha:t=>svg(NOTA[t])}};
 })();

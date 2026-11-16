@@ -3,22 +3,24 @@
 M.crearEntrenador=function(raiz,cfg){
  let niv=null,ej=0,pts=0,meta=[],resp=[],ver=[],intentos=0,hecho=false,sel=null,msg='',lento=false;
  const prog=M.leer(cfg.clave),NOM=cfg.nombres;
+ const tit=n=>cfg.neutro?n.neutro:n.titulo; // en la Sección 1 no se nombran las figuras todavía
  const estrellas=n=>'★'.repeat(n)+'☆'.repeat(M.EJ-n);
  const msg2=t=>{const m=raiz.querySelector('#msg');if(m)m.textContent=t;};
  const marcar=i=>raiz.querySelectorAll('.celda').forEach((c,j)=>c.classList.toggle('suena',j===i));
 
  function menu(){niv=null;
   raiz.innerHTML=`<h2>${cfg.titulo}</h2><p class="consigna">${cfg.consigna}</p><div class="niveles">${
-   M.NIVELES.map(n=>`<button class="nivel" data-nivel="${n.n}"><b>Nivel ${n.n}</b><span>${n.titulo}</span><em>${estrellas(prog[n.n]||0)}</em></button>`).join('')}</div>`;}
+   M.NIVELES.map(n=>`<button class="nivel" data-nivel="${n.n}"><b>Nivel ${n.n}</b><span>${tit(n)}</span><em>${estrellas(prog[n.n]||0)}</em></button>`).join('')}</div>`;}
  function celda(i){const t=resp[i];
   return `<div class="celda ${ver[i]===undefined?'':ver[i]?'ok':'mal'}" data-celda="${i}">${
    t?`<div class="fig" data-arr data-tipo="${t}" data-desde="${i}">${cfg.fig.celda(t)}</div>`:cfg.fig.celda(null)}</div>`;}
+ const compas=c=>`<div class="compas">${[0,1,2,3].map(k=>celda(c*4+k)).join('')}</div>`;
  function tablero(){const pal=cfg.paleta.filter(t=>niv.tipos.includes(t));
   raiz.innerHTML=`<h2>${cfg.titulo}</h2>
-  <p class="prog">Nivel ${niv.n}: ${niv.titulo} · Ejercicio ${ej+1} de ${M.EJ} · Aciertos a la primera: ${pts}</p>
+  <p class="prog">Nivel ${niv.n}: ${tit(niv)} · Ejercicio ${ej+1} de ${M.EJ} · Aciertos a la primera: ${pts}</p>
   <div class="barra"><button class="btn grande" data-acc="oir">▶ Escuchar el ritmo</button>
    <label><input type="checkbox" data-opt="lento" ${lento?'checked':''}> Más lento</label></div>
-  <div class="tablero ${cfg.clase}">${[0,1].map(c=>`<div class="compas">${[0,1,2,3].map(k=>celda(c*4+k)).join('')}</div>`).join('')}</div>
+  ${cfg.fig.inicio?`<div class="pent-wrap"><div class="pent">${cfg.fig.inicio}${compas(0)}<div class="barra-c"></div>${compas(1)}<div class="final"></div></div></div>`:`<div class="tablero">${compas(0)}${compas(1)}</div>`}
   <div class="paleta">${pal.map(t=>`<button class="ficha${sel===t?' sel':''}" data-arr data-tipo="${t}">${cfg.fig.ficha(t)}<span>${NOM[t]}</span></button>`).join('')}</div>
   <p id="msg" class="msg" aria-live="polite">${msg}</p>
   <div class="barra">${hecho
@@ -31,14 +33,14 @@ M.crearEntrenador=function(raiz,cfg){
 
  function empezar(n){niv=M.NIVELES[n-1];ej=0;pts=0;sel=null;nuevo();}
  function nuevo(){meta=M.generar(niv);resp=Array(8).fill(null);ver=[];intentos=0;hecho=false;
-  msg='Escuchá el ritmo y completá los 8 rectángulos.';tablero();}
+  msg='Escuchá el ritmo y completá los 8 tiempos.';tablero();}
  function colocar(i,t){if(hecho)return;resp[i]=(t==='silencio'&&cfg.vacioEsSilencio)?null:t;ver=[];msg='';tablero();}
  function oir(){M.audio.tocarRitmo(meta,{bpm:niv.bpm*(lento?.7:1),
   alBeat:i=>{if(i<0)msg2('Preparate… '+(i+5));else{msg2('Escuchá…');marcar(i);}},
   alFin:()=>{marcar(-1);msg2(msg);}});}
  function comprobar(){ver=M.comparar(meta,resp,cfg.vacioEsSilencio);intentos++;
   if(ver.every(Boolean)){hecho=true;if(intentos===1)pts++;msg=intentos===1?'¡Perfecto! Acertaste a la primera.':'¡Correcto! Lo lograste corrigiendo.';}
-  else msg=`Revisá los ${ver.filter(x=>!x).length} rectángulos en rojo. Escuchá de nuevo y probá otra vez.`;
+  else msg=`Revisá los ${ver.filter(x=>!x).length} tiempos en rojo. Escuchá de nuevo y probá otra vez.`;
   tablero();}
  function accion(a){M.audio.parar();
   if(a==='oir')return oir();
@@ -71,8 +73,8 @@ M.crearEntrenador=function(raiz,cfg){
 const conf={
  ritmos:{clave:'ritmos',titulo:'Sección 1 · Ritmo con partitura analógica',clase:'',vacioEsSilencio:true,fig:M.figuras.analogica,
   paleta:['negra','corcheas','semicorcheas','silencio'],
-  nombres:{negra:'Negra · 1 palito',corcheas:'Corcheas · 2 palitos',semicorcheas:'Semicorcheas · 4 palitos',silencio:'Silencio · vacío'},
-  consigna:'Escuchá el ritmo de percusión. Cada rectángulo es un pulso (una negra). Arrastrá los palitos al rectángulo que corresponda: 1 palito = negra, 2 = corcheas, 4 = semicorcheas. Si en ese pulso no suena nada, dejá el rectángulo vacío (silencio). También podés tocar una ficha y después tocar el rectángulo.'},
+  neutro:true,nombres:{negra:'1 sonido',corcheas:'2 sonidos',semicorcheas:'4 sonidos',silencio:'Silencio'},
+  consigna:'Escuchá el ritmo de percusión. Cada rectángulo es un tiempo. Fijate cuántos sonidos escuchás en cada tiempo y arrastrá la ficha de 1, 2 o 4 sonidos al rectángulo que corresponda. Si en ese tiempo no suena nada, dejá el rectángulo vacío (silencio). También podés tocar una ficha y después tocar el rectángulo.'},
  pentagrama:{clave:'pentagrama',titulo:'Sección 2 · Ritmos con figuras',clase:'pent',vacioEsSilencio:false,fig:M.figuras.pentagrama,
   paleta:['negra','corcheas','semicorcheas','silencio'],
   nombres:{negra:'Negra',corcheas:'Corcheas',semicorcheas:'Semicorcheas',silencio:'Silencio de negra'},

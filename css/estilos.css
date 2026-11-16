@@ -23,7 +23,14 @@ h2{margin:.2rem 0 .5rem}
 .tablero{display:flex;flex-wrap:wrap;gap:.8rem;justify-content:center;margin:1rem 0}
 .compas{display:flex;gap:6px;padding:8px;border:3px solid var(--tx);border-radius:.5rem;background:#fff}
 .celda{width:clamp(56px,18vw,96px);aspect-ratio:10/11;border:2px dashed var(--bor);border-radius:.4rem;color:var(--tx)}
-.pent .celda{border-style:dotted}
+.pent-wrap{--w:clamp(38px,8.5vw,80px);overflow-x:auto;margin:1rem 0;padding:.5rem 0}
+.pent{position:relative;display:flex;align-items:flex-start;width:max-content;height:calc(var(--w)*1.1);margin:0 auto;color:var(--tx)}
+.pent::before{content:"";position:absolute;left:0;right:0;top:calc(var(--w)*.7 - 1px);height:2px;background:currentColor;pointer-events:none}
+.pent .compas{display:flex;gap:0;padding:0;border:0;border-radius:0;background:none;height:100%}
+.pent .celda{width:var(--w);height:100%;aspect-ratio:auto;border:1px dashed var(--bor);border-radius:0}
+.pent .inicio{flex:none;width:calc(var(--w)*1.7);height:100%}
+.pent .barra-c{flex:none;width:3px;height:calc(var(--w)*.5);margin-top:calc(var(--w)*.45);background:currentColor}
+.pent .final{flex:none;width:10px;height:calc(var(--w)*.5);margin-top:calc(var(--w)*.45);background:linear-gradient(90deg,currentColor 0 2px,transparent 2px 6px,currentColor 6px 10px)}
 .celda.sobre{background:#fff3d6;border-color:var(--ac2)}
 .celda.ok{background:#dff3e6;border-color:var(--ok)}
 .celda.mal{background:#fbe0e0;border-color:var(--mal)}

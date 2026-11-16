@@ -4,11 +4,11 @@
 M.NOTAS={silencio:0,negra:1,corcheas:2,semicorcheas:4};
 M.EJ=5; // ejercicios por nivel
 M.NIVELES=[
- {n:1,titulo:'Negras y silencios',tipos:['negra','silencio'],exigir:'silencio',bpm:70},
- {n:2,titulo:'Aparecen las corcheas',tipos:['negra','corcheas','silencio'],exigir:'corcheas',bpm:76},
- {n:3,titulo:'Aparecen las semicorcheas',tipos:['negra','corcheas','semicorcheas'],exigir:'semicorcheas',bpm:76},
- {n:4,titulo:'Todas las figuras',tipos:['negra','corcheas','semicorcheas','silencio'],exigir:'silencio',bpm:80},
- {n:5,titulo:'Desafío',tipos:['negra','corcheas','semicorcheas','silencio'],exigir:'semicorcheas',veces:2,bpm:88}];
+ {n:1,titulo:'Negras y silencios',neutro:'Un sonido y silencios',tipos:['negra','silencio'],exigir:'silencio',bpm:70},
+ {n:2,titulo:'Aparecen las corcheas',neutro:'Aparecen los 2 sonidos',tipos:['negra','corcheas','silencio'],exigir:'corcheas',bpm:76},
+ {n:3,titulo:'Aparecen las semicorcheas',neutro:'Aparecen los 4 sonidos',tipos:['negra','corcheas','semicorcheas'],exigir:'semicorcheas',bpm:76},
+ {n:4,titulo:'Todas las figuras',neutro:'Todas las combinaciones',tipos:['negra','corcheas','semicorcheas','silencio'],exigir:'silencio',bpm:80},
+ {n:5,titulo:'Desafío',neutro:'Desafío',tipos:['negra','corcheas','semicorcheas','silencio'],exigir:'semicorcheas',veces:2,bpm:88}];
 // Genera 8 pulsos (2 compases de 4) al azar respetando las reglas del nivel.
 M.generar=function(n){let p;
  do{p=Array.from({length:8},()=>n.tipos[Math.floor(Math.random()*n.tipos.length)]);}
