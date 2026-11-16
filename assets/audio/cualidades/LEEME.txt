@@ -1,0 +1,3 @@
+Poné acá los audios de la Sección 3 (mp3, ogg o wav).
+Usá nombres sin espacios ni tildes: piano.mp3, guitarra.mp3, etc.
+Después anotá los nombres en el archivo  data/cualidades-config.js
