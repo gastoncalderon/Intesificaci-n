@@ -34,6 +34,7 @@ M.secciones.cualidades={titulo:'Cualidades del sonido',
     return `<td><div class="hueco ${est}" data-celda="${id}">${w!==undefined?`<span class="chip" data-arr data-tipo="${esc(w)}" data-desde="${id}">${cap(w)}</span>`:''}</div></td>`;};
    const usadas=Object.values(col),banco=orden.filter(w=>!usadas.includes(w));
    raiz.innerHTML=`<h2>Sección 3 · Cualidades del sonido</h2>
+   <p class="aviso">🎧 Para una buena escucha, usá auriculares o un buen parlante.</p>
    ${demo?'<p class="aviso">Ejercicios de demostración con sonidos sintetizados. Cuando se carguen los audios del docente, aparecerán acá.</p>':''}
    <p class="prog">Ejercicio ${i+1} de ${lista.length}</p>
    <table class="tabla"><thead><tr><th></th><th>${play('a')}</th><th>${play('b')}</th></tr></thead><tbody>${
